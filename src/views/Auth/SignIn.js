@@ -12,6 +12,7 @@ import {
   Switch,
   Text,
   useColorModeValue,
+  Icon,
 } from "@chakra-ui/react";
 import { useHistory } from "react-router-dom";
 
@@ -19,13 +20,15 @@ import { useHistory } from "react-router-dom";
 import signInImage from "assets/img/signInImage.png";
 import { useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { FacebookAuthProvider, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { auth } from "api/firebase";
+import { FaFacebook, FaGoogle } from "react-icons/fa";
 
 function SignIn() {
   // Chakra color mode
   const titleColor = useColorModeValue("teal.300", "teal.200");
   const textColor = useColorModeValue("gray.400", "white");
+  const bgIcons = useColorModeValue("teal.200", "rgba(255, 255, 255, 0.5)");
 
   const navigate = useHistory();
   const [email, setEmail] = useState('');
@@ -75,6 +78,66 @@ function SignIn() {
     }
   }
 
+  async function signInWithGoogle() {
+    const googleProvider = new GoogleAuthProvider();
+    try {
+      await signInWithPopup(auth, googleProvider);
+      toast.success('Logged In!', {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light"
+      });
+      navigate.push('/admin/dashboard');
+    } catch (err) {
+      console.error(err);
+      toast.error(err.message, {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light"
+      });
+    }
+  }
+
+  async function signInWithFacebook() {
+    const facebookProvider = new FacebookAuthProvider();
+    try {
+      await signInWithPopup(auth, facebookProvider);
+      toast.success('Logged In!', {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light"
+      });
+      navigate.push('/admin/dashboard');
+    } catch (err) {
+      console.error(err);
+      toast.error(err.message, {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light"
+      });
+    }
+  }
+
   return (
     <Flex position='relative' mb='40px'>
       <Flex
@@ -88,7 +151,7 @@ function SignIn() {
         <Flex
           alignItems='center'
           justifyContent='start'
-          style={{ userSelect: "none" }}
+          style={{ userSelect: "none", marginTop: 40 }}
           w={{ base: "100%", md: "50%", lg: "42%" }}>
           <Flex
             direction='column'
@@ -107,6 +170,7 @@ function SignIn() {
               fontSize='14px'>
               Enter your email and password to sign in
             </Text>
+
             <FormControl>
               <FormLabel ms='4px' fontSize='sm' fontWeight='normal'>
                 Email
@@ -134,6 +198,46 @@ function SignIn() {
                 placeholder='Your password'
                 size='lg'
               />
+
+              <Flex direction={'row'} align="center" justify='center'>
+
+                <Flex
+                  justify='center'
+                  align='center'
+                  w='75px'
+                  h='75px'
+                  borderRadius='15px'
+                  cursor='pointer'
+                  transition='all .25s ease'
+                  _hover={{ filter: "brightness(120%)", bg: bgIcons }}>
+                  <Button onClick={() => signInWithFacebook()} h={55} href='#'>
+                    <Icon
+                      as={FaFacebook}
+                      w='30px'
+                      h='30px'
+                      _hover={{ filter: "brightness(120%)" }}
+                    />
+                  </Button>
+                </Flex>
+                <Flex
+                  justify='center'
+                  align='center'
+                  w='75px'
+                  h='75px'
+                  borderRadius='15px'
+                  cursor='pointer'
+                  transition='all .25s ease'
+                  _hover={{ filter: "brightness(120%)", bg: bgIcons }}>
+                  <Button onClick={() => signInWithGoogle()} h={55} href='#'>
+                    <Icon
+                      as={FaGoogle}
+                      w='30px'
+                      h='30px'
+                      _hover={{ filter: "brightness(120%)" }}
+                    />
+                  </Button>
+                </Flex>
+              </Flex>
               <Button
                 onClick={() => login()}
                 fontSize='10px'
@@ -185,17 +289,17 @@ function SignIn() {
             borderBottomLeftRadius='20px'></Box>
         </Box>
       </Flex>
-      <ToastContainer 
-          position="top-center"
-          autoClose={3000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="colored"
+      <ToastContainer
+        position="top-center"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
       />
     </Flex>
   );

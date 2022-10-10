@@ -18,7 +18,7 @@ import { useHistory } from "react-router-dom";
 import { auth } from "api/firebase";
 // Assets
 import BgSignUp from "assets/img/BgSignUp.png";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import React, { useState } from "react";
 import { FaFacebook, FaGoogle } from "react-icons/fa";
 import { ToastContainer, toast } from 'react-toastify';
@@ -30,14 +30,14 @@ function SignUp() {
   const textColor = useColorModeValue("gray.700", "white");
   const bgColor = useColorModeValue("white", "gray.700");
   const bgIcons = useColorModeValue("teal.200", "rgba(255, 255, 255, 0.5)");
-  
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  
+
 
   function verifyForm() {
-    if(!email.includes('@') && email !== '') {
+    if (!email.includes('@') && email !== '') {
       toast.error('You need to type a valid email', {
         position: "top-center",
         autoClose: 3000,
@@ -46,11 +46,12 @@ function SignUp() {
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        theme: "light"})
-        return false;
+        theme: "light"
+      })
+      return false;
     }
 
-    if(password !== confirmPassword) {
+    if (password !== confirmPassword) {
       toast.error('The passwords are not the same', {
         position: "top-center",
         autoClose: 3000,
@@ -59,44 +60,76 @@ function SignUp() {
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        theme: "light"})
-        return false;
+        theme: "light"
+      })
+      return false;
     }
 
-    if(password === confirmPassword && email.includes('@') && email !== '') {
+    if (password === confirmPassword && email.includes('@') && email !== '') {
       return true;
     }
 
   }
 
   async function loggingUser() {
-    if(verifyForm()) {
-        try {
-          await createUserWithEmailAndPassword(auth, email, password);
-          toast.success('User created successfully', {
-            position: "top-center",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light"
-          })
-          navigate.push('/admin/dashboard');
-        } catch (err) {
-          console.error(err);
-          toast.error(err.message, {position: "top-center",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light"
-          });
-        }
+    if (verifyForm()) {
+      try {
+        await createUserWithEmailAndPassword(auth, email, password);
+        toast.success('User created successfully', {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light"
+        })
+        navigate.push('/admin/dashboard');
+      } catch (err) {
+        console.error(err);
+        toast.error(err.message, {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light"
+        });
+      }
     }
+  }
+
+  async function signInWithGoogle() {
+    const googleProvider = new GoogleAuthProvider();
+      try {
+        await signInWithPopup(auth, googleProvider);
+        toast.success('Signed Up!', {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light"
+        });
+        navigate.push('/admin/dashboard');
+      } catch (err) {
+        console.error(err);
+        toast.error(err.message, {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light"
+        });
+      }
   }
 
   return (
@@ -127,8 +160,8 @@ function SignUp() {
         align='center'
         mt='6.5rem'
         mb='30px'>
-        <Text style={{textAlign: 'center', maxWidth: '50%'}} fontSize='4xl' color='white' fontWeight='bold'>
-        Hi there! Thanks for chosing us :D
+        <Text style={{ textAlign: 'center', maxWidth: '50%' }} fontSize='4xl' color='white' fontWeight='bold'>
+          Hi there! Thanks for chosing us :D
         </Text>
       </Flex>
       <Flex alignItems='center' justifyContent='center' mb='60px' mt='20px'>
@@ -156,18 +189,17 @@ function SignUp() {
               w='75px'
               h='75px'
               borderRadius='15px'
-              border='1px solid lightgray'
               cursor='pointer'
               transition='all .25s ease'
               _hover={{ filter: "brightness(120%)", bg: bgIcons }}>
-              <Link href='#'>
+              <Button h={55} href='#'>
                 <Icon
                   as={FaFacebook}
                   w='30px'
                   h='30px'
                   _hover={{ filter: "brightness(120%)" }}
                 />
-              </Link>
+              </Button>
             </Flex>
             <Flex
               justify='center'
@@ -175,18 +207,17 @@ function SignUp() {
               w='75px'
               h='75px'
               borderRadius='15px'
-              border='1px solid lightgray'
               cursor='pointer'
               transition='all .25s ease'
               _hover={{ filter: "brightness(120%)", bg: bgIcons }}>
-              <Link href='#'>
+              <Button onClick={() => signInWithGoogle()} h={55} href='#'>
                 <Icon
                   as={FaGoogle}
                   w='30px'
                   h='30px'
                   _hover={{ filter: "brightness(120%)" }}
                 />
-              </Link>
+              </Button>
             </Flex>
           </HStack>
           <Text
@@ -279,17 +310,17 @@ function SignUp() {
           </Flex>
         </Flex>
       </Flex>
-      <ToastContainer 
-          position="top-center"
-          autoClose={3000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="colored"
+      <ToastContainer
+        position="top-center"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
       />
     </Flex>
   );
