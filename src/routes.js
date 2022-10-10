@@ -43,14 +43,6 @@ var dashRoutes = [
     layout: "/admin",
   },
   {
-    path: "/rtl-support-page",
-    name: "RTL",
-    rtlName: "آرتيإل",
-    icon: <SupportIcon color="inherit" />,
-    component: RTLPage,
-    layout: "/rtl",
-  },
-  {
     name: "ACCOUNT PAGES",
     category: "account",
     rtlName: "صفحات",

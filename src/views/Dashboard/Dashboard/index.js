@@ -59,14 +59,14 @@ export default function Dashboard() {
           icon={<CartIcon h={"24px"} w={"24px"} color={iconBoxInside} />}
         />
       </SimpleGrid>
-      <Grid
+      {/* <Grid
         templateColumns={{ md: "1fr", lg: "1.8fr 1.2fr" }}
         templateRows={{ md: "1fr auto", lg: "1fr" }}
         my='26px'
         gap='24px'>
         <BuiltByDevelopers
           title={"Built by Developers"}
-          name={"Purity UI Dashboard"}
+          name={"Chakra Dashboard"}
           description={
             "From colors, cards, typography to complex elements, you will find the full documentation."
           }
@@ -85,7 +85,8 @@ export default function Dashboard() {
             "Wealth creation is a revolutionary recent positive-sum game. It is all about who takes the opportunity first."
           }
         />
-      </Grid>
+      </Grid> */}
+      <div style={{marginTop: 30}}/>
       <Grid
         templateColumns={{ sm: "1fr", lg: "1.3fr 1.7fr" }}
         templateRows={{ sm: "repeat(2, 1fr)", lg: "1fr" }}
@@ -112,11 +113,11 @@ export default function Dashboard() {
           captions={["Companies", "Members", "Budget", "Completion"]}
           data={dashboardTableData}
         />
-        <OrdersOverview
+        {/* <OrdersOverview
           title={"Orders Overview"}
           amount={30}
           data={timelineData}
-        />
+        /> */}
       </Grid>
     </Flex>
   );

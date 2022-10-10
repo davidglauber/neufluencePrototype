@@ -111,7 +111,7 @@ function SignIn() {
               mt='0px'>
               <Text color={textColor} fontWeight='medium'>
                 Don't have an account?
-                <Link color={titleColor} as='span' ms='5px' fontWeight='bold'>
+                <Link color={titleColor} href="/signup" as='span' ms='5px' fontWeight='bold'>
                   Sign Up
                 </Link>
               </Text>

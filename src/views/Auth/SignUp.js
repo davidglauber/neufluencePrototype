@@ -13,16 +13,92 @@ import {
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
+import { useHistory } from "react-router-dom";
+
+import { auth } from "api/firebase";
 // Assets
 import BgSignUp from "assets/img/BgSignUp.png";
-import React from "react";
-import { FaApple, FaFacebook, FaGoogle } from "react-icons/fa";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import React, { useState } from "react";
+import { FaFacebook, FaGoogle } from "react-icons/fa";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function SignUp() {
+  const navigate = useHistory();
   const titleColor = useColorModeValue("teal.300", "teal.200");
   const textColor = useColorModeValue("gray.700", "white");
   const bgColor = useColorModeValue("white", "gray.700");
   const bgIcons = useColorModeValue("teal.200", "rgba(255, 255, 255, 0.5)");
+  
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  
+
+  function verifyForm() {
+    if(!email.includes('@') && email !== '') {
+      toast.error('You need to type a valid email', {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light"})
+        return false;
+    }
+
+    if(password !== confirmPassword) {
+      toast.error('The passwords are not the same', {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light"})
+        return false;
+    }
+
+    if(password === confirmPassword && email.includes('@') && email !== '') {
+      return true;
+    }
+
+  }
+
+  async function loggingUser() {
+    if(verifyForm()) {
+        try {
+          await createUserWithEmailAndPassword(auth, email, password);
+          toast.success('User created successfully', {
+            position: "top-center",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light"
+          })
+          navigate.push('/admin/dashboard');
+        } catch (err) {
+          console.error(err);
+          toast.error(err.message, {position: "top-center",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light"
+          });
+        }
+    }
+  }
+
   return (
     <Flex
       direction='column'
@@ -51,18 +127,8 @@ function SignUp() {
         align='center'
         mt='6.5rem'
         mb='30px'>
-        <Text fontSize='4xl' color='white' fontWeight='bold'>
-          Welcome!
-        </Text>
-        <Text
-          fontSize='md'
-          color='white'
-          fontWeight='normal'
-          mt='10px'
-          mb='26px'
-          w={{ base: "90%", sm: "60%", lg: "40%", xl: "30%" }}>
-          Use these awesome forms to login or create new account in your project
-          for free.
+        <Text style={{textAlign: 'center', maxWidth: '50%'}} fontSize='4xl' color='white' fontWeight='bold'>
+        Hi there! Thanks for chosing us :D
         </Text>
       </Flex>
       <Flex alignItems='center' justifyContent='center' mb='60px' mt='20px'>
@@ -115,25 +181,6 @@ function SignUp() {
               _hover={{ filter: "brightness(120%)", bg: bgIcons }}>
               <Link href='#'>
                 <Icon
-                  as={FaApple}
-                  w='30px'
-                  h='30px'
-                  _hover={{ filter: "brightness(120%)" }}
-                />
-              </Link>
-            </Flex>
-            <Flex
-              justify='center'
-              align='center'
-              w='75px'
-              h='75px'
-              borderRadius='15px'
-              border='1px solid lightgray'
-              cursor='pointer'
-              transition='all .25s ease'
-              _hover={{ filter: "brightness(120%)", bg: bgIcons }}>
-              <Link href='#'>
-                <Icon
                   as={FaGoogle}
                   w='30px'
                   h='30px'
@@ -152,18 +199,6 @@ function SignUp() {
           </Text>
           <FormControl>
             <FormLabel ms='4px' fontSize='sm' fontWeight='normal'>
-              Name
-            </FormLabel>
-            <Input
-              fontSize='sm'
-              ms='4px'
-              borderRadius='15px'
-              type='text'
-              placeholder='Your full name'
-              mb='24px'
-              size='lg'
-            />
-            <FormLabel ms='4px' fontSize='sm' fontWeight='normal'>
               Email
             </FormLabel>
             <Input
@@ -173,6 +208,8 @@ function SignUp() {
               type='email'
               placeholder='Your email address'
               mb='24px'
+              value={email}
+              onChange={(text) => setEmail(text.target.value)}
               size='lg'
             />
             <FormLabel ms='4px' fontSize='sm' fontWeight='normal'>
@@ -183,17 +220,28 @@ function SignUp() {
               ms='4px'
               borderRadius='15px'
               type='password'
+              value={password}
+              onChange={(text) => setPassword(text.target.value)}
               placeholder='Your password'
               mb='24px'
               size='lg'
             />
-            <FormControl display='flex' alignItems='center' mb='24px'>
-              <Switch id='remember-login' colorScheme='teal' me='10px' />
-              <FormLabel htmlFor='remember-login' mb='0' fontWeight='normal'>
-                Remember me
-              </FormLabel>
-            </FormControl>
+            <FormLabel ms='4px' fontSize='sm' fontWeight='normal'>
+              Confirm your Password
+            </FormLabel>
+            <Input
+              fontSize='sm'
+              ms='4px'
+              borderRadius='15px'
+              type='password'
+              value={confirmPassword}
+              onChange={(text) => setConfirmPassword(text.target.value)}
+              placeholder='Your password again'
+              mb='24px'
+              size='lg'
+            />
             <Button
+              onClick={() => loggingUser()}
               type='submit'
               bg='teal.300'
               fontSize='10px'
@@ -219,18 +267,30 @@ function SignUp() {
             mt='0px'>
             <Text color={textColor} fontWeight='medium'>
               Already have an account?
-              <Link
+              <Button
                 color={titleColor}
                 as='span'
                 ms='5px'
-                href='#'
+                href='/auth'
                 fontWeight='bold'>
                 Sign In
-              </Link>
+              </Button>
             </Text>
           </Flex>
         </Flex>
       </Flex>
+      <ToastContainer 
+          position="top-center"
+          autoClose={3000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="colored"
+      />
     </Flex>
   );
 }
