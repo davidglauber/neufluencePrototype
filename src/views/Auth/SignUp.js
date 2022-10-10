@@ -18,7 +18,7 @@ import { useHistory } from "react-router-dom";
 import { auth } from "api/firebase";
 // Assets
 import BgSignUp from "assets/img/BgSignUp.png";
-import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { createUserWithEmailAndPassword, FacebookAuthProvider, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import React, { useState } from "react";
 import { FaFacebook, FaGoogle } from "react-icons/fa";
 import { ToastContainer, toast } from 'react-toastify';
@@ -85,7 +85,7 @@ function SignUp() {
           progress: undefined,
           theme: "light"
         })
-        navigate.push('/admin/dashboard');
+        navigate.push('/auth/signin');
       } catch (err) {
         console.error(err);
         toast.error(err.message, {
@@ -130,6 +130,36 @@ function SignUp() {
           theme: "light"
         });
       }
+  }
+
+  async function signInWithFacebook() {
+    const facebookProvider = new FacebookAuthProvider();
+    try {
+      await signInWithPopup(auth, facebookProvider);
+      toast.success('Logged In!', {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light"
+      });
+      navigate.push('/admin/dashboard');
+    } catch (err) {
+      console.error(err);
+      toast.error(err.message, {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light"
+      });
+    }
   }
 
   return (
@@ -192,7 +222,7 @@ function SignUp() {
               cursor='pointer'
               transition='all .25s ease'
               _hover={{ filter: "brightness(120%)", bg: bgIcons }}>
-              <Button h={55} href='#'>
+              <Button onClick={() => signInWithFacebook()} h={55} href='#'>
                 <Icon
                   as={FaFacebook}
                   w='30px'

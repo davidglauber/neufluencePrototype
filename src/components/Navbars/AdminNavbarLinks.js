@@ -1,5 +1,5 @@
 // Chakra Icons
-import { BellIcon, SearchIcon } from "@chakra-ui/icons";
+import { BellIcon, MoonIcon, SearchIcon, SmallCloseIcon } from "@chakra-ui/icons";
 // Chakra Imports
 import {
   Button,
@@ -13,6 +13,7 @@ import {
   MenuItem,
   MenuList,
   Text,
+  useColorMode,
   useColorModeValue,
 } from "@chakra-ui/react";
 // Assets
@@ -24,13 +25,16 @@ import { ProfileIcon, SettingsIcon } from "components/Icons/Icons";
 // Custom Components
 import { ItemContent } from "components/Menu/ItemContent";
 import SidebarResponsive from "components/Sidebar/SidebarResponsive";
+import { getAuth, signOut } from "firebase/auth";
 import PropTypes from "prop-types";
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import routes from "routes.js";
 
 export default function HeaderLinks(props) {
   const { variant, children, fixed, secondary, onOpen, ...rest } = props;
+  const { colorMode, toggleColorMode } = useColorMode();
+  const navigate = useHistory();
 
   // Chakra Color Mode
   let mainTeal = useColorModeValue("teal.300", "teal.300");
@@ -44,6 +48,17 @@ export default function HeaderLinks(props) {
     mainText = "white";
   }
   const settingsRef = React.useRef();
+
+  async function logout() {
+    const auth = getAuth();
+    signOut(auth).then(() => {
+      // Sign-out successful.
+      navigate.push('/auth/signin');
+    }).catch((error) => {
+      // An error happened.
+    });
+  }
+
   return (
     <Flex
       pe={{ sm: "0px", md: "16px" }}
@@ -93,31 +108,30 @@ export default function HeaderLinks(props) {
           borderRadius="inherit"
         />
       </InputGroup>
-      <NavLink to="/auth/signin">
-        <Button
-          ms="0px"
-          px="0px"
-          me={{ sm: "2px", md: "16px" }}
-          color={navbarIcon}
-          variant="transparent-with-icon"
-          rightIcon={
-            document.documentElement.dir ? (
-              ""
-            ) : (
-              <ProfileIcon color={navbarIcon} w="22px" h="22px" me="0px" />
-            )
-          }
-          leftIcon={
-            document.documentElement.dir ? (
-              <ProfileIcon color={navbarIcon} w="22px" h="22px" me="0px" />
-            ) : (
-              ""
-            )
-          }
-        >
-          <Text display={{ sm: "none", md: "flex" }}>Sign In</Text>
-        </Button>
-      </NavLink>
+      <Button
+        onClick={() => logout()}
+        ms="0px"
+        px="0px"
+        me={{ sm: "2px", md: "16px" }}
+        color={navbarIcon}
+        variant="transparent-with-icon"
+        rightIcon={
+          document.documentElement.dir ? (
+            ""
+          ) : (
+            <SmallCloseIcon color={navbarIcon} w="22px" h="22px" me="0px" />
+          )
+        }
+        leftIcon={
+          document.documentElement.dir ? (
+            <SmallCloseIcon color={navbarIcon} w="22px" h="22px" me="0px" />
+          ) : (
+            ""
+          )
+        }
+      >
+        <Text display={{ sm: "none", md: "flex" }}>Sign Out</Text>
+      </Button>
       <SidebarResponsive
         logoText={props.logoText}
         secondary={props.secondary}
@@ -125,16 +139,17 @@ export default function HeaderLinks(props) {
         // logo={logo}
         {...rest}
       />
-      <SettingsIcon
+      <MoonIcon
         cursor="pointer"
         ms={{ base: "16px", xl: "0px" }}
         me="16px"
         ref={settingsRef}
-        onClick={props.onOpen}
+        onClick={toggleColorMode}
         color={navbarIcon}
         w="18px"
         h="18px"
       />
+
       <Menu>
         <MenuButton>
           <BellIcon color={navbarIcon} w="18px" h="18px" />

@@ -48,7 +48,7 @@ function Sidebar(props) {
           borderRadius={sidebarRadius}
         >
           <SidebarContent routes={routes}
-        logoText={"CHAKRA DASHBOARD"}
+        logoText={"CHAKRA"}
         display="none"
         sidebarVariant={sidebarVariant}
         />

@@ -16,65 +16,42 @@ import {
   RocketIcon,
   SupportIcon,
 } from "components/Icons/Icons";
+import { ProfileIcon } from "components/Icons/Icons";
+import { CloseIcon, SunIcon } from "@chakra-ui/icons";
 
 var dashRoutes = [
   {
     path: "/dashboard",
     name: "Dashboard",
     rtlName: "لوحة القيادة",
-    icon: <HomeIcon color="inherit" />,
+    icon: <StatsIcon color="inherit" />,
     component: Dashboard,
     layout: "/admin",
   },
   {
     path: "/tables",
-    name: "Tables",
+    name: "Followers",
     rtlName: "لوحة القيادة",
-    icon: <StatsIcon color="inherit" />,
+    icon: <ProfileIcon color="inherit" />,
     component: Tables,
     layout: "/admin",
   },
   {
-    path: "/billing",
-    name: "Billing",
+    path: "/profile",
+    name: "Profile",
     rtlName: "لوحة القيادة",
-    icon: <CreditIcon color="inherit" />,
-    component: Billing,
+    icon: <PersonIcon color="inherit" />,
+    secondaryNavbar: true,
+    component: Profile,
     layout: "/admin",
   },
   {
-    name: "ACCOUNT PAGES",
-    category: "account",
-    rtlName: "صفحات",
-    state: "pageCollapse",
-    views: [
-      {
-        path: "/profile",
-        name: "Profile",
-        rtlName: "لوحة القيادة",
-        icon: <PersonIcon color="inherit" />,
-        secondaryNavbar: true,
-        component: Profile,
-        layout: "/admin",
-      },
-      {
-        path: "/signin",
-        name: "Sign In",
-        rtlName: "لوحة القيادة",
-        icon: <DocumentIcon color="inherit" />,
-        component: SignIn,
-        layout: "/auth",
-      },
-      {
-        path: "/signup",
-        name: "Sign Up",
-        rtlName: "لوحة القيادة",
-        icon: <RocketIcon color="inherit" />,
-        secondaryNavbar: true,
-        component: SignUp,
-        layout: "/auth",
-      },
-    ],
-  },
+    path: "/",
+    name: "You're very welcome here",
+    rtlName: "لوحة القيادة",
+    icon: <SunIcon color="inherit" />,
+    component: SignIn,
+    layout: "/auth",
+  }
 ];
 export default dashRoutes;

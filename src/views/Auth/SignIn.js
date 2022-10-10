@@ -20,9 +20,10 @@ import { useHistory } from "react-router-dom";
 import signInImage from "assets/img/signInImage.png";
 import { useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
-import { FacebookAuthProvider, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
+import { FacebookAuthProvider, getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { auth } from "api/firebase";
 import { FaFacebook, FaGoogle } from "react-icons/fa";
+import { useEffect } from "react";
 
 function SignIn() {
   // Chakra color mode
@@ -33,6 +34,19 @@ function SignIn() {
   const navigate = useHistory();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+
+  useEffect(() => {
+    const auth = getAuth();
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        navigate.push('/admin/dashboard');
+      } else {
+        return null;
+      }
+    });
+  },[])
 
   async function login() {
     await signInWithEmailAndPassword(auth, email, password);
