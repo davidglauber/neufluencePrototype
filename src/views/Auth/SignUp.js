@@ -271,7 +271,7 @@ function SignUp() {
                 color={titleColor}
                 as='span'
                 ms='5px'
-                href='/auth'
+                onClick={() => navigate.push('/auth/signin')}
                 fontWeight='bold'>
                 Sign In
               </Button>

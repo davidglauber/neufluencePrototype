@@ -13,13 +13,68 @@ import {
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
+import { useHistory } from "react-router-dom";
+
 // Assets
 import signInImage from "assets/img/signInImage.png";
+import { useState } from "react";
+import { toast, ToastContainer } from "react-toastify";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "api/firebase";
 
 function SignIn() {
   // Chakra color mode
   const titleColor = useColorModeValue("teal.300", "teal.200");
   const textColor = useColorModeValue("gray.400", "white");
+
+  const navigate = useHistory();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  async function login() {
+    await signInWithEmailAndPassword(auth, email, password);
+    toast.success('User logged successfully', {
+      position: "top-center",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light"
+    })
+    navigate.push('/admin/dashboard');
+
+    if (email !== '' && password !== '') {
+      try {
+        toast.success('User logged successfully', {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light"
+        })
+        await signInWithEmailAndPassword(auth, email, password);
+        navigate.push('/admin/dashboard');
+      } catch (err) {
+        console.error(err);
+        toast.error(err.message, {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light"
+        });
+      }
+    }
+  }
+
   return (
     <Flex position='relative' mb='40px'>
       <Flex
@@ -60,7 +115,9 @@ function SignIn() {
                 borderRadius='15px'
                 mb='24px'
                 fontSize='sm'
-                type='text'
+                type='email'
+                value={email}
+                onChange={(text) => setEmail(text.target.value)}
                 placeholder='Your email adress'
                 size='lg'
               />
@@ -72,20 +129,13 @@ function SignIn() {
                 mb='36px'
                 fontSize='sm'
                 type='password'
+                value={password}
+                onChange={(text) => setPassword(text.target.value)}
                 placeholder='Your password'
                 size='lg'
               />
-              <FormControl display='flex' alignItems='center'>
-                <Switch id='remember-login' colorScheme='teal' me='10px' />
-                <FormLabel
-                  htmlFor='remember-login'
-                  mb='0'
-                  ms='1'
-                  fontWeight='normal'>
-                  Remember me
-                </FormLabel>
-              </FormControl>
               <Button
+                onClick={() => login()}
                 fontSize='10px'
                 type='submit'
                 bg='teal.300'
@@ -111,9 +161,9 @@ function SignIn() {
               mt='0px'>
               <Text color={textColor} fontWeight='medium'>
                 Don't have an account?
-                <Link color={titleColor} href="/signup" as='span' ms='5px' fontWeight='bold'>
+                <Button color={titleColor} onClick={() => navigate.push('/auth/signup')} as='span' ms='5px' fontWeight='bold'>
                   Sign Up
-                </Link>
+                </Button>
               </Text>
             </Flex>
           </Flex>
@@ -135,6 +185,18 @@ function SignIn() {
             borderBottomLeftRadius='20px'></Box>
         </Box>
       </Flex>
+      <ToastContainer 
+          position="top-center"
+          autoClose={3000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="colored"
+      />
     </Flex>
   );
 }
