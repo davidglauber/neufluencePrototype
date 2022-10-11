@@ -17,7 +17,7 @@ import {
   SupportIcon,
 } from "components/Icons/Icons";
 import { ProfileIcon } from "components/Icons/Icons";
-import { CloseIcon, InfoOutlineIcon, SunIcon } from "@chakra-ui/icons";
+import { CloseIcon, InfoOutlineIcon, SunIcon, ViewIcon } from "@chakra-ui/icons";
 
 var dashRoutes = [
   {
@@ -32,7 +32,7 @@ var dashRoutes = [
     path: "/tables",
     name: "Followers",
     rtlName: "لوحة القيادة",
-    icon: <ProfileIcon color="inherit" />,
+    icon: <ViewIcon color="inherit" />,
     component: Tables,
     layout: "/admin",
   },

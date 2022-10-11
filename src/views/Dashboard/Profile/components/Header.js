@@ -8,6 +8,7 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import React from "react";
+import { toast } from "react-toastify";
 
 const Header = ({
   backgroundHeader,
@@ -24,6 +25,46 @@ const Header = ({
     "rgba(255, 255, 255, 0.31)"
   );
   const emailColor = useColorModeValue("gray.400", "gray.300");
+
+
+  function getPageToken(userAccessToken, userId) {
+    fetch(
+        `https://graph.facebook.com/${userId}/accounts?access_token=${userAccessToken}`)
+        .then((res) => res.json())
+        .then((json) => {
+          alert(JSON.stringify(json))
+    })
+  }
+
+  function signInFacebookGraphAPI() {
+    // fetch(
+    //   "https://graph.facebook.com/oauth/access_token?client_id=573668387866289&client_secret=d12abcadcdbd99a45dd7119116a075c9&grant_type=client_credentials")
+    //   .then((res) => res.json())
+    //   .then((json) => {
+    //     alert(JSON.stringify(json))
+    //   })
+      window.FB.login(function(response) {
+        var idResponse = response.userID;
+        // handle the response
+        
+        FB.getLoginStatus(function(response) {
+          if (response.status === 'connected') {
+            var accessToken = response.authResponse.accessToken;
+            getPageToken(accessToken, idResponse)
+            console.log(accessToken, idResponse);
+          } 
+        } );
+        
+        // if (response.status === 'connected') {
+        //   alert('Logged successfully')
+        //   // Logged into your webpage and Facebook.
+        // } else {
+        //   alert('Error when logging on Facebook')
+        //   // The person is not logged into your webpage or we are unable to tell. 
+        // }
+      }, {scope: 'public_profile,email'});
+  }
+
   return (
     <Box
       mb={{ sm: "205px", md: "75px", xl: "70px" }}
@@ -135,7 +176,7 @@ const Header = ({
                 </Text>
               </Flex>
             </Button>
-            <Button p='0px' bg='transparent' _hover={{ bg: "none" }}>
+            <Button onClick={() => signInFacebookGraphAPI()} p='0px' bg='transparent' _hover={{ bg: "none" }}>
               <Flex
                 align='center'
                 w={{ lg: "135px" }}

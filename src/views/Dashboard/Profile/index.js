@@ -1,6 +1,6 @@
 // Chakra imports
 import { Flex, Grid, useColorModeValue } from "@chakra-ui/react";
-import avatar4 from "assets/img/avatars/avatar4.png";
+import avatar4 from "assets/img/avatars/avatar5.png";
 import ProfileBgImage from "assets/img/ProfileBackground.png";
 import { SettingsIcon } from "components/Icons/Icons";
 import React from "react";
@@ -26,8 +26,8 @@ function Profile() {
         backgroundHeader={ProfileBgImage}
         backgroundProfile={bgProfile}
         avatarImage={avatar4}
-        name={"Esthera Jackson"}
-        email={"esthera@simmmple.com"}
+        name={"David Glauber"}
+        email={"davidglauber2010@hotmail.com"}
         tabs={[
           {
             name: "OVERVIEW",
@@ -38,7 +38,7 @@ function Profile() {
             icon: <SettingsIcon w='15%' h='15%' />,
           },
           {
-            name: "PROJECTS",
+            name: "INTEGRATING",
             icon: <FaPenFancy w='100%' h='100%' />,
           },
         ]}
@@ -52,12 +52,12 @@ function Profile() {
         <ProfileInformation
           title={"Profile Information"}
           description={
-            "Hi, I’m Esthera Jackson, Decisions: If you can’t decide, the answer is no. If two equally difficult paths, choose the one more painful in the short term (pain avoidance is creating an illusion of equality)."
+            "Hi, I’m David Glauber, Decisions: If you can’t decide, the answer is no. If two equally difficult paths, choose the one more painful in the short term (pain avoidance is creating an illusion of equality)."
           }
-          name={"Esthera Jackson"}
+          name={"David Glauber"}
           mobile={"(44) 123 1234 123"}
-          email={"esthera@simmmple.com"}
-          location={"United States"}
+          email={"davidglauber2010@hotmail.com"}
+          location={"Brazil"}
         />
         <Conversations title={"Conversations"} />
       </Grid>
