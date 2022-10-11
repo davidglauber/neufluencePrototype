@@ -17,7 +17,7 @@ import {
   SupportIcon,
 } from "components/Icons/Icons";
 import { ProfileIcon } from "components/Icons/Icons";
-import { CloseIcon, SunIcon } from "@chakra-ui/icons";
+import { CloseIcon, InfoOutlineIcon, SunIcon } from "@chakra-ui/icons";
 
 var dashRoutes = [
   {
@@ -46,12 +46,21 @@ var dashRoutes = [
     layout: "/admin",
   },
   {
-    path: "/",
+    path: "/signin",
+    name: "Information",
+    rtlName: "لوحة القيادة",
+    icon: <InfoOutlineIcon color="inherit" />,
+    component: SignIn,
+    layout: "/auth",
+  },
+  {
+    path: "/signup",
     name: "You're very welcome here",
     rtlName: "لوحة القيادة",
     icon: <SunIcon color="inherit" />,
-    component: SignIn,
+    component: SignUp,
     layout: "/auth",
-  }
+  },
+  
 ];
 export default dashRoutes;

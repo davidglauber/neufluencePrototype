@@ -38,16 +38,6 @@ function TablesTableRow(props) {
       </Td>
 
       <Td>
-        <Flex direction="column">
-          <Text fontSize="md" color={textColor} fontWeight="bold">
-            {domain}
-          </Text>
-          <Text fontSize="sm" color="gray.400" fontWeight="normal">
-            {subdomain}
-          </Text>
-        </Flex>
-      </Td>
-      <Td>
         <Badge
           bg={status === "Online" ? "green.400" : bgStatus}
           color={status === "Online" ? "white" : colorStatus}
@@ -62,18 +52,6 @@ function TablesTableRow(props) {
         <Text fontSize="md" color={textColor} fontWeight="bold" pb=".5rem">
           {date}
         </Text>
-      </Td>
-      <Td>
-        <Button p="0px" bg="transparent" variant="no-hover">
-          <Text
-            fontSize="md"
-            color="gray.400"
-            fontWeight="bold"
-            cursor="pointer"
-          >
-            Edit
-          </Text>
-        </Button>
       </Td>
     </Tr>
   );

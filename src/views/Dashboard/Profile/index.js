@@ -2,6 +2,7 @@
 import { Flex, Grid, useColorModeValue } from "@chakra-ui/react";
 import avatar4 from "assets/img/avatars/avatar4.png";
 import ProfileBgImage from "assets/img/ProfileBackground.png";
+import { SettingsIcon } from "components/Icons/Icons";
 import React from "react";
 import { FaCube, FaPenFancy } from "react-icons/fa";
 import { IoDocumentsSharp } from "react-icons/io5";
@@ -33,8 +34,8 @@ function Profile() {
             icon: <FaCube w='100%' h='100%' />,
           },
           {
-            name: "TEAMS",
-            icon: <IoDocumentsSharp w='100%' h='100%' />,
+            name: "SETTINGS",
+            icon: <SettingsIcon w='15%' h='15%' />,
           },
           {
             name: "PROJECTS",
@@ -42,12 +43,12 @@ function Profile() {
           },
         ]}
       />
-      <Grid templateColumns={{ sm: "1fr", xl: "repeat(3, 1fr)" }} gap='22px'>
-        <PlatformSettings
+      <Grid alignItems='center'  gap='22px'>
+        {/* <PlatformSettings
           title={"Platform Settings"}
           subtitle1={"ACCOUNT"}
           subtitle2={"APPLICATION"}
-        />
+        /> */}
         <ProfileInformation
           title={"Profile Information"}
           description={
@@ -60,7 +61,7 @@ function Profile() {
         />
         <Conversations title={"Conversations"} />
       </Grid>
-      <Projects title={"Projects"} description={"Architects design houses"} />
+      {/* <Projects title={"Projects"} description={"Architects design houses"} /> */}
     </Flex>
   );
 }

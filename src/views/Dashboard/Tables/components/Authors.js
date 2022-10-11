@@ -45,8 +45,6 @@ const Authors = ({ title, captions, data }) => {
                   name={row.name}
                   logo={row.logo}
                   email={row.email}
-                  subdomain={row.subdomain}
-                  domain={row.domain}
                   status={row.status}
                   date={row.date}
                 />

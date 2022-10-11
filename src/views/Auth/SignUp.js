@@ -18,8 +18,8 @@ import { useHistory } from "react-router-dom";
 import { auth } from "api/firebase";
 // Assets
 import BgSignUp from "assets/img/BgSignUp.png";
-import { createUserWithEmailAndPassword, FacebookAuthProvider, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import React, { useState } from "react";
+import { createUserWithEmailAndPassword, FacebookAuthProvider, getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithPopup } from "firebase/auth";
+import React, { useEffect, useState } from "react";
 import { FaFacebook, FaGoogle } from "react-icons/fa";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -35,6 +35,18 @@ function SignUp() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
+
+  useEffect(() => {
+    const auth = getAuth();
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        navigate.push('/admin/dashboard');
+      } else {
+        return null;
+      }
+    });
+  },[])
 
   function verifyForm() {
     if (!email.includes('@') && email !== '') {
