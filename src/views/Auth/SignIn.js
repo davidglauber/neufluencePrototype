@@ -27,9 +27,9 @@ import { useEffect } from "react";
 
 function SignIn() {
   // Chakra color mode
-  const titleColor = useColorModeValue("teal.300", "teal.200");
+  const titleColor = useColorModeValue("orange.300", "orange.200");
   const textColor = useColorModeValue("gray.400", "white");
-  const bgIcons = useColorModeValue("teal.200", "rgba(255, 255, 255, 0.5)");
+  const bgIcons = useColorModeValue("orange.200", "rgba(255, 255, 255, 0.5)");
 
   const navigate = useHistory();
   const [email, setEmail] = useState('');
@@ -256,17 +256,17 @@ function SignIn() {
                 onClick={() => login()}
                 fontSize='10px'
                 type='submit'
-                bg='teal.300'
+                bg='orange.300'
                 w='100%'
                 h='45'
                 mb='20px'
                 color='white'
                 mt='20px'
                 _hover={{
-                  bg: "teal.200",
+                  bg: "orange.200",
                 }}
                 _active={{
-                  bg: "teal.400",
+                  bg: "orange.400",
                 }}>
                 SIGN IN
               </Button>

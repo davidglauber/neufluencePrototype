@@ -26,10 +26,10 @@ import 'react-toastify/dist/ReactToastify.css';
 
 function SignUp() {
   const navigate = useHistory();
-  const titleColor = useColorModeValue("teal.300", "teal.200");
+  const titleColor = useColorModeValue("orange.300", "orange.200");
   const textColor = useColorModeValue("gray.700", "white");
   const bgColor = useColorModeValue("white", "gray.700");
-  const bgIcons = useColorModeValue("teal.200", "rgba(255, 255, 255, 0.5)");
+  const bgIcons = useColorModeValue("orange.200", "rgba(255, 255, 255, 0.5)");
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -316,7 +316,7 @@ function SignUp() {
             <Button
               onClick={() => loggingUser()}
               type='submit'
-              bg='teal.300'
+              bg='orange.300'
               fontSize='10px'
               color='white'
               fontWeight='bold'
@@ -324,10 +324,10 @@ function SignUp() {
               h='45'
               mb='24px'
               _hover={{
-                bg: "teal.200",
+                bg: "orange.200",
               }}
               _active={{
-                bg: "teal.400",
+                bg: "orange.400",
               }}>
               SIGN UP
             </Button>

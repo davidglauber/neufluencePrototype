@@ -19,6 +19,7 @@
 		"classnames": "2.3.1",
 		"firebase": "^9.11.0",
 		"framer-motion": "^4.1.17",
+		"global": "^4.4.0",
 		"match-sorter": "6.3.0",
 		"moment": "2.29.1",
 		"node-sass": "7.0.1",

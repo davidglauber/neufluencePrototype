@@ -13,7 +13,7 @@ function TransactionRow(props) {
           borderRadius="50%"
           color={
             price[0] === "+"
-              ? "green.400"
+              ? "orange.400"
               : price[0] === "-"
               ? "red.400"
               : "gray.400"

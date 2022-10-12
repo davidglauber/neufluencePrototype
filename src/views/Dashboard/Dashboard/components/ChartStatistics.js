@@ -3,7 +3,7 @@ import IconBox from "components/Icons/IconBox";
 import React from "react";
 
 const ChartStatistics = ({ title, amount, icon, percentage }) => {
-  const iconTeal = useColorModeValue("teal.300", "teal.300");
+  const iconTeal = useColorModeValue("orange.300", "orange.300");
   const iconBoxInside = useColorModeValue("white", "white");
   const textColor = useColorModeValue("gray.700", "white");
   const overlayRef = React.useRef();
@@ -21,7 +21,7 @@ const ChartStatistics = ({ title, amount, icon, percentage }) => {
         {amount}
       </Text>
       <Progress
-        colorScheme='teal'
+        colorScheme='orange'
         borderRadius='12px'
         h='5px'
         value={percentage}

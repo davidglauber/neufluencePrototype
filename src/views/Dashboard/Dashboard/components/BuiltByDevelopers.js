@@ -68,7 +68,7 @@ const BuiltByDevelopers = ({ title, name, description, image }) => {
           </Flex>
           <Spacer />
           <Flex
-            bg='teal.300'
+            bg='orange.300'
             align='center'
             justify='center'
             borderRadius='15px'

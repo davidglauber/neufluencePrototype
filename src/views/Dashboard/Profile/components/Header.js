@@ -27,9 +27,9 @@ const Header = ({
   const emailColor = useColorModeValue("gray.400", "gray.300");
 
 
-  function getPageToken(userAccessToken, userId) {
+  function getPageToken() {
     fetch(
-        `https://graph.facebook.com/${userId}/accounts?access_token=${userAccessToken}`)
+        `https://graph.facebook.com/me/accounts?access_token=EAAIJv5R6RrEBACQPtRN5ZAcWvq4O3yrxsG6HJ04iu9YE5TgIfjEmGDwNShC1RvsCQziFOaUuiUFKpf69B9YT8quIkvMB3LLcL4ivmYnVvlMlkLGLFXLIilT1OURodGZBL8AIOLw8pM2Fqy9ogxZBSoAz83ZAft12E3X4bbrvQq6C8ihuuz55hPUSntdrbYkZD`)
         .then((res) => res.json())
         .then((json) => {
           alert(JSON.stringify(json))
@@ -44,25 +44,17 @@ const Header = ({
     //     alert(JSON.stringify(json))
     //   })
       window.FB.login(function(response) {
-        var idResponse = response.userID;
-        // handle the response
+        getPageToken()
         
-        FB.getLoginStatus(function(response) {
-          if (response.status === 'connected') {
-            var accessToken = response.authResponse.accessToken;
-            getPageToken(accessToken, idResponse)
-            console.log(accessToken, idResponse);
-          } 
-        } );
         
-        // if (response.status === 'connected') {
-        //   alert('Logged successfully')
-        //   // Logged into your webpage and Facebook.
-        // } else {
-        //   alert('Error when logging on Facebook')
-        //   // The person is not logged into your webpage or we are unable to tell. 
-        // }
-      }, {scope: 'public_profile,email'});
+        if (response.status === 'connected') {
+          alert('Logged successfully')
+          // Logged into your webpage and Facebook.
+        } else {
+          alert('Error when logging on Facebook')
+          // The person is not logged into your webpage or we are unable to tell. 
+        }
+      }, {scope: 'public_profile,email,pages_show_list,pages_read_engagement,pages_read_user_content,pages_manage_posts,pages_manage_engagement'});
   }
 
   return (

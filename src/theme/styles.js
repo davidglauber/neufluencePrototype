@@ -2,9 +2,15 @@ import { mode } from '@chakra-ui/theme-tools';
 
 export const globalStyles = {
 	colors: {
+		transparent: "transparent",
+		black: "#000",
+		white: "#fff",
 		gray: {
-			700: '#1f2733'
-		}
+		  50: "#f7fafc",
+		  // ...
+		  900: "#171923",
+		},
+		// ...
 	},
 	styles: {
 		global: (props) => ({
