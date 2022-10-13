@@ -46,7 +46,6 @@ const Header = ({
       'GET',
       { "fields": "id,name,access_token,picture,about" },
       function (response) {
-        alert(JSON.stringify(response))
         setPageInformation(response.data)
       }
     );
