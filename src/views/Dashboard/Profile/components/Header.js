@@ -4,11 +4,21 @@ import {
   Box,
   Button,
   Flex,
+  Image,
   Text,
-  useColorModeValue,
+  useColorModeValue
 } from "@chakra-ui/react";
-import React from "react";
-import { toast } from "react-toastify";
+import React, { useEffect, useState } from "react";
+import {
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+} from "@chakra-ui/react"
+import { Separator } from "components/Separator/Separator";
 
 const Header = ({
   backgroundHeader,
@@ -25,36 +35,36 @@ const Header = ({
     "rgba(255, 255, 255, 0.31)"
   );
   const emailColor = useColorModeValue("gray.400", "gray.300");
+  const [isOpen, setIsOpen] = useState(false);
+  const [pageInformation, setPageInformation] = useState([]);
+
 
 
   function getPageToken() {
-    fetch(
-        `https://graph.facebook.com/me/accounts?access_token=EAAIJv5R6RrEBACQPtRN5ZAcWvq4O3yrxsG6HJ04iu9YE5TgIfjEmGDwNShC1RvsCQziFOaUuiUFKpf69B9YT8quIkvMB3LLcL4ivmYnVvlMlkLGLFXLIilT1OURodGZBL8AIOLw8pM2Fqy9ogxZBSoAz83ZAft12E3X4bbrvQq6C8ihuuz55hPUSntdrbYkZD`)
-        .then((res) => res.json())
-        .then((json) => {
-          alert(JSON.stringify(json))
-    })
+    FB.api(
+      '/me/accounts',
+      'GET',
+      { "fields": "id,name,access_token,picture" },
+      function (response) {
+        alert(JSON.stringify(response))
+        setPageInformation(response.data)
+      }
+    );
   }
 
   function signInFacebookGraphAPI() {
-    // fetch(
-    //   "https://graph.facebook.com/oauth/access_token?client_id=573668387866289&client_secret=d12abcadcdbd99a45dd7119116a075c9&grant_type=client_credentials")
-    //   .then((res) => res.json())
-    //   .then((json) => {
-    //     alert(JSON.stringify(json))
-    //   })
-      window.FB.login(function(response) {
-        getPageToken()
-        
-        
-        if (response.status === 'connected') {
-          alert('Logged successfully')
-          // Logged into your webpage and Facebook.
-        } else {
-          alert('Error when logging on Facebook')
-          // The person is not logged into your webpage or we are unable to tell. 
-        }
-      }, {scope: 'public_profile,email,pages_show_list,pages_read_engagement,pages_read_user_content,pages_manage_posts,pages_manage_engagement'});
+    window.FB.login(function (response) {
+      getPageToken()
+      setIsOpen(true)
+
+      if (response.status === 'connected') {
+        alert('Logged successfully')
+        // Logged into your webpage and Facebook.
+      } else {
+        alert('Error when logging on Facebook')
+        // The person is not logged into your webpage or we are unable to tell. 
+      }
+    }, { scope: 'public_profile,email,pages_show_list,pages_read_engagement,pages_read_user_content,pages_manage_posts,pages_manage_engagement' });
   }
 
   return (
@@ -66,6 +76,36 @@ const Header = ({
       flexDirection='column'
       justifyContent='center'
       align='center'>
+      <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Your Facebook Pages</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            {pageInformation.map((item) =>
+              <Flex>
+                <Flex flexDirection={'row'} alignItems="center" marginBottom={15}>
+                  <Image
+                    boxSize="50px"
+                    borderRadius="lg"
+                    objectFit="cover"
+                    src={item.picture.data.url}
+                    alt="Page's Picture"
+                  />
+                  <Text key={item.id} marginLeft={7} fontSize='md' color='gray.500' fontWeight='400'>
+                    {item.name}
+                  </Text>
+                </Flex>
+              </Flex>
+            )}
+          </ModalBody>
+          <ModalFooter>
+            <Button colorScheme="orange" mr={3} onClick={() => setIsOpen(false)}>
+              Close
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
       <Box
         bgImage={backgroundHeader}
         w='100%'

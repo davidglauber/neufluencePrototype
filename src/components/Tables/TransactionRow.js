@@ -47,7 +47,7 @@ function TransactionRow(props) {
       <Box
         color={
           price[0] === "+"
-            ? "green.400"
+            ? "orange.400"
             : price[0] === "-"
             ? "red.400"
             : { textColor }
