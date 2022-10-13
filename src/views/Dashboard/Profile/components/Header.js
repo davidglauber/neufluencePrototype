@@ -44,7 +44,7 @@ const Header = ({
     FB.api(
       '/me/accounts',
       'GET',
-      { "fields": "id,name,access_token,picture" },
+      { "fields": "id,name,access_token,picture,about" },
       function (response) {
         alert(JSON.stringify(response))
         setPageInformation(response.data)
@@ -83,8 +83,8 @@ const Header = ({
           <ModalCloseButton />
           <ModalBody>
             {pageInformation.map((item) =>
-              <Flex>
-                <Flex flexDirection={'row'} alignItems="center" marginBottom={15}>
+              <Flex flexDirection={'column'}>
+                <Flex style={{borderWidth: 1, borderColor: '#f4eff7', padding:7, borderRadius: 15}} flexDirection={'row'} alignItems="center" marginBottom={15}>
                   <Image
                     boxSize="50px"
                     borderRadius="lg"
@@ -95,6 +95,15 @@ const Header = ({
                   <Text key={item.id} marginLeft={7} fontSize='md' color='gray.500' fontWeight='400'>
                     {item.name}
                   </Text>
+                  {item.about !== undefined ?
+                    <Text textAlign={"justify"} marginLeft={10} key={item.id} fontSize='smaller' color='black.400' fontWeight='400'>
+                      {item.about}
+                    </Text>
+                    :
+                    <Text textAlign={"justify"} position="absolute" right={10} key={item.id} fontSize='medium' color='black.400' fontWeight='bold'>
+                      No Info
+                    </Text>
+                  }
                 </Flex>
               </Flex>
             )}
