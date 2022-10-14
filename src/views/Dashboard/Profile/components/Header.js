@@ -60,23 +60,24 @@ const Header = ({
           setIsOpen2(false)
         }
       }
+      
     );
+    
   }
 
-  function getPagePosts(id) {
+  function getPagePosts(id, token) {
     // alert('id é: ' + id)
     FB.api(
       `/${id}/posts`,
       'GET',
-      { "fields": "id,story,attachments{media},actions,permalink_url"},
+      { "fields": "id,story,attachments{media},permalink_url,message", 'access_token': token },
       function (response) {
-        alert(JSON.stringify(response))
+        // alert(JSON.stringify(response))
         if (response && !response.error) {
           /* handle the result */
           if (response.data.length !== 0) {
             setPagePosts(response.data)
             setIsOpen(false)
-            setIsOpen2(false)
             setIsOpen3(true)
           }
         }
@@ -86,9 +87,8 @@ const Header = ({
 
   function signInFacebookGraphAPI() {
     window.FB.login(function (response) {
-      getPageToken()
-
       if (response.status === 'connected') {
+        getPageToken()
         // alert('Logged successfully')
         // Logged into your webpage and Facebook.
       } else {
@@ -102,6 +102,22 @@ const Header = ({
   //   alert('sd')
   // }
 
+  function verifyImage(data) {
+    if(typeof data.attachments.data !== 'undefined') {
+      return (
+        <Image
+          style={{width: '70%', height: '5%'}}
+          borderRadius="lg"
+          objectFit="contain"
+          src={data.attachments.data[0].media.image.src}
+          alt="Page's Picture"
+        />
+        );
+    } else {
+      return null;
+    }
+  }
+
   return (
     <Box
       mb={{ sm: "205px", md: "75px", xl: "70px" }}
@@ -111,14 +127,14 @@ const Header = ({
       flexDirection='column'
       justifyContent='center'
       align='center'>
-      <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
+      <Modal size={"3xl"} isOpen={isOpen} onClose={() => setIsOpen(false)}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Your Facebook Pages</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             {pageInformation.map((item) =>
-              <Flex onClick={() => [setIsOpen3(true), getPagePosts(item.id)]} flexDirection={'column'}>
+              <Flex onClick={() => [setIsOpen3(true), getPagePosts(item.id, item.access_token)]} flexDirection={'column'}>
                 <Flex flexDirection={'row'} alignItems="center" marginBottom={15}>
                   <Image
                     boxSize="50px"
@@ -217,13 +233,10 @@ const Header = ({
                   <Text key={item.id} marginLeft={7} marginTop={7} fontSize='medium' color='gray.500' fontWeight='100'>
                     {item.story}
                   </Text>
-                  <Image
-                    style={{width: '70%', height: '5%'}}
-                    borderRadius="lg"
-                    objectFit="contain"
-                    src={item.attachments.data[0].media.image.src}
-                    alt="Page's Picture"
-                  />
+                  {verifyImage(item)}
+                  <Text key={item.id} paddingLeft={10} paddingRight={10} alignSelf="center" textAlign={"justify"} marginRight={3} marginTop={10} fontSize='medium' color='white.500' fontWeight='400'>
+                    {item.message}
+                  </Text>
                   <Button colorScheme="teal" mr={3} marginTop={3} onClick={() => window.open(item.permalink_url)}>
                     Go to Post
                   </Button>
@@ -322,7 +335,7 @@ const Header = ({
                 </Text>
               </Flex>
             </Button>
-            <Button p='0px' bg='transparent' _hover={{ bg: "none" }}>
+            <Button onClick={() => {pageInformation.length !== 0 ? setIsOpen(true) : setIsOpen2(true)}} p='0px' bg='transparent' _hover={{ bg: "none" }}>
               <Flex
                 align='center'
                 w={{ lg: "135px" }}
@@ -338,24 +351,6 @@ const Header = ({
                   fontWeight='bold'
                   ms='6px'>
                   {tabs[1].name}
-                </Text>
-              </Flex>
-            </Button>
-            <Button onClick={() => setIsOpen2(true)} p='0px' bg='transparent' _hover={{ bg: "none" }}>
-              <Flex
-                align='center'
-                w={{ lg: "135px" }}
-                borderRadius='15px'
-                justifyContent='center'
-                py='10px'
-                cursor='pointer'>
-                {tabs[2].icon}
-                <Text
-                  fontSize='xs'
-                  color={textColor}
-                  fontWeight='bold'
-                  ms='6px'>
-                  {tabs[2].name}
                 </Text>
               </Flex>
             </Button>

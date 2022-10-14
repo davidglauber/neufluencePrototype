@@ -34,10 +34,6 @@ function Profile() {
             icon: <FaCube w='100%' h='100%' />,
           },
           {
-            name: "SETTINGS",
-            icon: <SettingsIcon w='15%' h='15%' />,
-          },
-          {
             name: "INTEGRATING",
             icon: <FaPenFancy w='100%' h='100%' />,
           },
