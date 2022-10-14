@@ -26,8 +26,8 @@ function Profile() {
         backgroundHeader={ProfileBgImage}
         backgroundProfile={bgProfile}
         avatarImage={avatar4}
-        name={"David Glauber"}
-        email={"davidglauber2010@hotmail.com"}
+        name={"John Doe"}
+        email={"johndoe@hotmail.com"}
         tabs={[
           {
             name: "OVERVIEW",
@@ -52,11 +52,11 @@ function Profile() {
         <ProfileInformation
           title={"Profile Information"}
           description={
-            "Hi, I’m David Glauber, Decisions: If you can’t decide, the answer is no. If two equally difficult paths, choose the one more painful in the short term (pain avoidance is creating an illusion of equality)."
+            "Hi, I’m John Doe, Decisions: If you can’t decide, the answer is no. If two equally difficult paths, choose the one more painful in the short term (pain avoidance is creating an illusion of equality)."
           }
-          name={"David Glauber"}
+          name={"John Doe"}
           mobile={"(44) 123 1234 123"}
-          email={"davidglauber2010@hotmail.com"}
+          email={"johndoe@hotmail.com"}
           location={"Brazil"}
         />
         <Conversations title={"Conversations"} />
